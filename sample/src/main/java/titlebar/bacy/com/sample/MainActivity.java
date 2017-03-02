@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -13,11 +12,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bacy.view.titlebar.TitleBar;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AutoLayoutActivity {
     private ImageView mCollectView;
     private boolean mIsSelected;
+
+    public static boolean hasKitKat() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    }
+
+    public static boolean hasLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         titleBar.setDividerColor(Color.GRAY);
 
         titleBar.setActionTextColor(Color.WHITE);
-        mCollectView = (ImageView) titleBar.addAction(new TitleBar.ImageAction(R.mipmap.collect) {
+        mCollectView = (ImageView) titleBar.addAction(new TitleBar.ImageAction(R.mipmap.collect, R.mipmap.collect) {
             @Override
             public void performAction(View view) {
                 Toast.makeText(MainActivity.this, "点击了收藏", Toast.LENGTH_SHORT).show();
@@ -75,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        titleBar.addAction(new TitleBar.TextAction("发布") {
+        titleBar.addAction(new TitleBar.TextAction(getString(R.string.publish), R.string.publish) {
             @Override
             public void performAction(View view) {
                 Toast.makeText(MainActivity.this, "点击了发布", Toast.LENGTH_SHORT).show();
@@ -88,13 +96,5 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    public static boolean hasKitKat() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    }
-
-    public static boolean hasLollipop() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 }
